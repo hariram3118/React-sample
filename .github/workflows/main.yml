@@ -1,0 +1,38 @@
+name: React CI/CD Workflow
+
+on:
+  push:
+    branches:
+      - main 
+ 
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Node.js
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'  # Specify the Node.js version, change as necessary
+
+    # Step 3: Install dependencies
+    - name: Install dependencies
+      run: npm install
+
+    # Step 4: Lint the project (optional, if using ESLint)
+    - name: Lint the code
+      run: npm run lint
+
+    # Step 5: Run unit tests
+    - name: Run unit tests
+      run: npm test -- --watch=false --browsers=ChromeHeadless
+
+    # Step 6: Build the React app
+    - name: Build the React app
+      run: npm run build
